@@ -12,15 +12,44 @@ import memesData from "../memeData.js"
      *   src to the new `memeImage` state you created
      */
 
+/**
+     * Challenge: Update our state to save the meme-related
+     * data as an object called `meme`. It should have the
+     * following 3 properties:
+     * topText, bottomText, randomImage.
+     * 
+     * The 2 text states can default to empty strings for now,
+     * amd randomImage should default to "http://i.imgflip.com/1bij.jpg"
+     * 
+     * Next, create a new state variable called `allMemeImages`
+     * which will default to `memesData`, which we imported above
+     * 
+     * Lastly, update the `getMemeImage` function and the markup 
+     * to reflect our newly reformed state object and array in the
+     * correct way.
+*/
+
 function Meme() {
 
-    const [memeImage, setMemeImage] = useState("");
+    // const [memeImage, setMemeImage] = useState("http://i.imgflip.com/1bij.jpg");
+
+    const [meme, setMeme] = useState({
+        topText: "Top text",
+        bottomText: "Bottom text",
+        randomImage: "http://i.imgflip.com/1bij.jpg"
+    })
+
+    const [allMemeImages, setAllMemeImages] = useState(memesData);
 
 
     function generateImg() {
-        const memesArray = memesData.data.memes
+        const memesArray = allMemeImages.data.memes
         const randomNumber = Math.floor(Math.random() * memesArray.length);
-        setMemeImage(memesArray[randomNumber].url)
+        const url = memesArray[randomNumber].url
+        setMeme(prevMeme => ({
+            ...prevMeme,
+            randomImage: url
+        }))
     }
 
     return (
@@ -31,7 +60,7 @@ function Meme() {
                 <button type="submit" className="form--button" onClick={generateImg}>Get a new meme image</button>
             </div>
 
-            <img src={memeImage} className="memes--image" />
+            <img src={meme.randomImage} className="memes--image" />
 
         </main>
     )
